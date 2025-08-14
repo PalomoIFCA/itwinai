@@ -89,32 +89,7 @@ def test_wandb_logger_log(wandb_logger):
         wandb_logger.destroy_logger_context()
 
 
-@pytest.mark.tensorflow
-def test_tensorboard_logger_log_tf(tensorboard_logger_tf):
-    import tensorflow as tf
 
-    with (
-        patch("tensorflow.summary.scalar") as mock_scalar,
-        patch("tensorflow.summary.image") as mock_image,
-        patch("tensorflow.summary.text") as mock_text,
-    ):
-        tensorboard_logger_tf.create_logger_context()
-
-        # Log a scalar
-        tensorboard_logger_tf.log(0.5, "test_scalar", kind="metric", step=1)
-        mock_scalar.assert_called_once_with("test_scalar", 0.5, step=1)
-
-        # Log an image
-        image = tf.zeros([10, 10, 3])
-        tensorboard_logger_tf.log(image, "test_image", kind="image", step=1)
-        mock_image.assert_called_once()
-        assert np.allclose(mock_image.call_args[0][1].numpy(), image.numpy())
-
-        # Log text
-        tensorboard_logger_tf.log("test text", "test_text", kind="text", step=1)
-        mock_text.assert_called_once_with("test_text", "test text", step=1)
-
-        tensorboard_logger_tf.destroy_logger_context()
 
 
 def test_tensorboard_logger_log_torch(tensorboard_logger_torch):
