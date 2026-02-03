@@ -9,7 +9,7 @@ on:
     # TODO: uncomment
     # branches: [main]
   # pull_request:
-  #   branches: [main, dev]
+  #   branches: [main, dev]d
 
 jobs:
   sqaaas_job:
